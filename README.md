@@ -1,0 +1,1 @@
+# Leitor-de-mesa-tcg-e-jogador-autonomo
