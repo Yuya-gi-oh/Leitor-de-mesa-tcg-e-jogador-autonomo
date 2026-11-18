@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">Leitor de mesa TCG</string>
+    <string name="home_title">Leitor de mesa TCG e jogador autónomo</string>
+    <string name="choose_game">Escolhe o jogo</string>
+    <string name="choose_difficulty">Escolhe a dificuldade da IA</string>
+    <string name="start_game">Iniciar partida</string>
+    <string name="back">Voltar</string>
+    <string name="scan_table">Escanear mesa</string>
+    <string name="scanning">A ler a mesa…</string>
+    <string name="no_matches">Nenhuma carta reconhecida ainda. Aproxima a câmara e melhora a luz.</string>
+    <string name="add_to_field">Adicionar ao campo</string>
+    <string name="add_to_hand">Adicionar à mão</string>
+    <string name="add_to_graveyard">Adicionar ao cemitério</string>
+    <string name="opponent_panel">Adversário (IA)</string>
+    <string name="you_panel">O teu tabuleiro</string>
+    <string name="life">Vida: %1$d</string>
+    <string name="mana">Mana: %1$d</string>
+    <string name="deck">Baralho: %1$d</string>
+    <string name="hand">Mão: %1$d</string>
+    <string name="graveyard">Cemitério: %1$d</string>
+    <string name="actions_title">Jogadas legais (toque para executar)</string>
+    <string name="log_title">Explicações da IA</string>
+    <string name="your_turn">A tua vez</string>
+    <string name="ai_turn">A IA está a pensar…</string>
+    <string name="you_win">Ganhaste a partida!</string>
+    <string name="you_lose">A IA ganhou a partida.</string>
+    <string name="new_game">Nova partida</string>
+    <string name="manual_adjust_hint">Carta reconhecida — corrige onde deve ir:</string>
+    <string name="camera_permission_needed">É necessária a permissão da câmara para reconhecer cartas.</string>
+    <string name="confirm">Confirmar</string>
+</resources>
