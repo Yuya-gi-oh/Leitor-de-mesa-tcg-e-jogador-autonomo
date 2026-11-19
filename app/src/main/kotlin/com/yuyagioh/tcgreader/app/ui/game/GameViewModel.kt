@@ -6,10 +6,12 @@ import androidx.lifecycle.viewModelScope
 import com.yuyagioh.tcgreader.ai.AiAgent
 import com.yuyagioh.tcgreader.ai.AgentFactory
 import com.yuyagioh.tcgreader.app.di.RulesRegistry
+import com.yuyagioh.tcgreader.app.setup.DeckSelection
 import com.yuyagioh.tcgreader.core.action.GameAction
 import com.yuyagioh.tcgreader.core.model.CardInfo
 import com.yuyagioh.tcgreader.core.model.CardInstance
 import com.yuyagioh.tcgreader.core.model.Difficulty
+import com.yuyagioh.tcgreader.core.model.GameFormat
 import com.yuyagioh.tcgreader.core.model.GameId
 import com.yuyagioh.tcgreader.core.model.GameState
 import com.yuyagioh.tcgreader.core.model.PlayerId
@@ -38,6 +40,7 @@ enum class ManualZone(val displayNamePt: String) {
 class GameViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val rulesRegistry: RulesRegistry,
+    private val deckSelection: DeckSelection,
 ) : ViewModel() {
 
     val gameId: GameId = runCatching { GameId.valueOf(savedStateHandle.get<String>("gameId").orEmpty()) }
@@ -46,7 +49,10 @@ class GameViewModel @Inject constructor(
     val difficulty: Difficulty = runCatching { Difficulty.valueOf(savedStateHandle.get<String>("difficulty").orEmpty()) }
         .getOrDefault(Difficulty.MEDIUM)
 
-    val rules: GameRules = rulesRegistry.get(gameId)
+    val format: GameFormat = runCatching { GameFormat.valueOf(savedStateHandle.get<String>("format").orEmpty()) }
+        .getOrDefault(GameFormat.STANDARD)
+
+    val rules: GameRules = rulesRegistry.get(gameId, format)
 
     private val agent: AiAgent = AgentFactory.byDifficulty(difficulty)
 
@@ -68,8 +74,13 @@ class GameViewModel @Inject constructor(
     fun startGame() {
         aiJob?.cancel()
         _log.value = emptyList()
-        _state.value = rules.initialState(sampleDeck().shuffled(), sampleDeck().shuffled())
-        pushLog("Partida de ${gameId.displayNamePt} iniciada (IA: ${difficulty.displayNamePt}).")
+        val yourDeck = deckSelection.deckFor(gameId) ?: defaultDeck()
+        val deckSize = yourDeck.size
+        _state.value = rules.initialState(yourDeck.shuffled(), defaultDeck().shuffled())
+        pushLog(
+            "Partida de ${gameId.displayNamePt} (${format.displayNamePt}) iniciada " +
+                "(IA: ${difficulty.displayNamePt}, baralho com $deckSize cartas).",
+        )
         runAiIfNeeded()
     }
 
@@ -108,9 +119,9 @@ class GameViewModel @Inject constructor(
         pushLog("Correção manual: ${card.name} → ${zone.displayNamePt}.")
     }
 
-    private fun sampleDeck(): List<CardInfo> = when (gameId) {
+    private fun defaultDeck(): List<CardInfo> = when (gameId) {
         GameId.MAGIC -> MtgSampleDecks.starterDeck()
-        GameId.YUGIOH -> YgoSampleDecks.starterDeck()
+        GameId.YUGIOH -> if (format == GameFormat.SPEED_DUEL) YgoSampleDecks.speedDuelDeck() else YgoSampleDecks.starterDeck()
     }
 
     private fun runAiIfNeeded() {

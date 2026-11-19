@@ -4,6 +4,7 @@ import com.yuyagioh.tcgreader.core.action.GameAction
 import com.yuyagioh.tcgreader.core.model.CardInfo
 import com.yuyagioh.tcgreader.core.model.CardInstance
 import com.yuyagioh.tcgreader.core.model.CardType
+import com.yuyagioh.tcgreader.core.model.GameFormat
 import com.yuyagioh.tcgreader.core.model.GameId
 import com.yuyagioh.tcgreader.core.model.GameState
 import com.yuyagioh.tcgreader.core.model.Phase
@@ -14,13 +15,14 @@ import com.yuyagioh.tcgreader.core.model.withPlayer
 import com.yuyagioh.tcgreader.core.rules.GameRules
 import com.yuyagioh.tcgreader.core.setup.GameSetup
 
-class YgoRules : GameRules {
+class YgoRules(private val format: GameFormat = GameFormat.STANDARD) : GameRules {
 
     override val game: GameId = GameId.YUGIOH
 
     override fun initialState(deckYou: List<CardInfo>, deckOpponent: List<CardInfo>): GameState {
-        val dealtYou = GameSetup.deal(deckYou, HAND_SIZE)
-        val dealtOpp = GameSetup.deal(deckOpponent, HAND_SIZE)
+        val handSize = if (format == GameFormat.SPEED_DUEL) SPEED_DUEL_HAND else HAND_SIZE
+        val dealtYou = GameSetup.deal(deckYou, handSize)
+        val dealtOpp = GameSetup.deal(deckOpponent, handSize)
         return GameState(
             game = game,
             turnNumber = 1,
@@ -318,10 +320,22 @@ class YgoRules : GameRules {
         )
     }
 
+    val cardPool: List<CardInfo>
+        get() = when (format) {
+            GameFormat.SPEED_DUEL -> YgoSampleDecks.speedDuelDeck()
+            GameFormat.STANDARD -> YgoSampleDecks.starterDeck()
+        }
+
+    val minimumDeckSize: Int
+        get() = if (format == GameFormat.SPEED_DUEL) SPEED_DUEL_MIN_DECK else STANDARD_MIN_DECK
+
     companion object {
         const val STARTING_LIFE = 8000
         const val HAND_SIZE = 5
         const val HAND_LIMIT = 6
+        const val SPEED_DUEL_HAND = 4
+        const val STANDARD_MIN_DECK = 40
+        const val SPEED_DUEL_MIN_DECK = 20
         const val MAX_MONSTERS = 5
         const val TRIBUTE_FREE_LEVEL = 4
         const val TRIBUTE_ONE_MAX = 6

@@ -23,15 +23,17 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.yuyagioh.tcgreader.app.R
 import com.yuyagioh.tcgreader.core.model.Difficulty
+import com.yuyagioh.tcgreader.core.model.GameFormat
 import com.yuyagioh.tcgreader.core.model.GameId
 
 @Composable
 fun HomeScreen(
-    onStartGame: (GameId, Difficulty) -> Unit,
+    onStartGame: (GameId, Difficulty, GameFormat) -> Unit,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val game by viewModel.selectedGame.collectAsStateWithLifecycle()
     val difficulty by viewModel.selectedDifficulty.collectAsStateWithLifecycle()
+    val format by viewModel.selectedFormat.collectAsStateWithLifecycle()
 
     Column(
         modifier = Modifier
@@ -60,6 +62,26 @@ fun HomeScreen(
             }
         }
 
+        if (game == GameId.YUGIOH) {
+            Text(
+                text = stringResource(R.string.choose_format),
+                style = MaterialTheme.typography.titleMedium,
+            )
+            GameFormat.entries.forEach { candidate ->
+                Column(modifier = Modifier.fillMaxWidth()) {
+                    FilterChip(
+                        selected = candidate == format,
+                        onClick = { viewModel.selectFormat(candidate) },
+                        label = { Text(candidate.displayNamePt) },
+                    )
+                    Text(
+                        text = candidate.descriptionPt,
+                        style = MaterialTheme.typography.bodySmall,
+                    )
+                }
+            }
+        }
+
         Text(
             text = stringResource(R.string.choose_difficulty),
             style = MaterialTheme.typography.titleMedium,
@@ -80,7 +102,7 @@ fun HomeScreen(
 
         Spacer(modifier = Modifier.height(12.dp))
         Button(
-            onClick = { onStartGame(game, difficulty) },
+            onClick = { onStartGame(game, difficulty, format) },
             modifier = Modifier.fillMaxWidth(),
         ) {
             Text(stringResource(R.string.start_game))

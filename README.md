@@ -16,6 +16,11 @@ jogos e joga como adversário autónomo, em quatro níveis de dificuldade.
 ## Funcionalidades
 
 - **Escolha de jogo** (Magic: The Gathering, Yu-Gi-Oh!) e de dificuldade (Fácil, Médio, Difícil, Mestre).
+- **Formato Speed Duel** para Yu-Gi-Oh!: baralhos de 20 cartas e mão inicial
+de 4 (além do modo Padrão com 40+ cartas).
+- **Definição do teu baralho**: antes da partida, a app pergunta "Quais são
+as tuas cartas?" e deixa ajustar as quantidades de cada carta (ou usas um
+baralho de exemplo com um toque).
 - **Motor de regras modular**: interface comum `GameRules` em `core`; um módulo por jogo
   (`rules-mtg`, `rules-ygo`), cada novo jogo é adicionável como módulo Gradle.
 - **Jogador autónomo com IA explicável**: aleatório com regras legais (Fácil),
@@ -84,9 +89,12 @@ escolhe jogadas sempre dentro de `legalActions()` e explica-as.
   feitiços/traps (podem ser postos boca a baixo, sem efeitos).
 - **Visão**: OCR do nome + fuzzy matching; não há ainda reconhecimento por
   imagem (embeddings/TFLite) — extensão natural do módulo `vision`.
+- **Skill Cards**: o formato Speed Duel usa Cartas de Habilidade; ainda não
+  estão implementadas (roadmap).
 - **Roadmap sugerido**: stack do MTG e mais tipos de feitiço; invocações
-  especiais e cadeias no YGO; reconhecimento TFLite; construtor de baralhos
-  com base na API; Pokémon TCG como terceiro módulo de regras.
+  especiais e cadeias no YGO; Skill Cards do Speed Duel; reconhecimento
+  TFLite; construtor de baralhos com base na API; Pokémon TCG como
+  terceiro módulo de regras.
 
 ## Licença
 

@@ -32,4 +32,13 @@ object YgoSampleDecks {
         repeat(4) { add(giantSoldierOfStone) }
         repeat(2) { add(mysticalSpaceTyphoon) }
     }
+
+    fun speedDuelDeck(): List<CardInfo> = buildList {
+        repeat(2) { add(blueEyesWhiteDragon) }
+        repeat(3) { add(summonedSkull) }
+        repeat(8) { add(celticGuardian) }
+        repeat(4) { add(mysticElf) }
+        repeat(2) { add(giantSoldierOfStone) }
+        repeat(1) { add(mysticalSpaceTyphoon) }
+    }
 }

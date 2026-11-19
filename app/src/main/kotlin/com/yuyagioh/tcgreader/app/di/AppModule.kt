@@ -2,6 +2,7 @@ package com.yuyagioh.tcgreader.app.di
 
 import android.content.Context
 import androidx.room.Room
+import com.yuyagioh.tcgreader.core.model.GameFormat
 import com.yuyagioh.tcgreader.core.model.GameId
 import com.yuyagioh.tcgreader.core.rules.GameRules
 import com.yuyagioh.tcgreader.data.db.CardDao
@@ -72,9 +73,13 @@ object AppModule {
     @Provides
     @Singleton
     fun rulesRegistry(): RulesRegistry = RulesRegistry(
-        mapOf(
+        rules = mapOf(
             GameId.MAGIC to MtgRules(),
             GameId.YUGIOH to YgoRules(),
+        ),
+        ygoByFormat = mapOf(
+            GameFormat.STANDARD to YgoRules(GameFormat.STANDARD),
+            GameFormat.SPEED_DUEL to YgoRules(GameFormat.SPEED_DUEL),
         ),
     )
 }

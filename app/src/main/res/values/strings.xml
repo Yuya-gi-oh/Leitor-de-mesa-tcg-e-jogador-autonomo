@@ -2,8 +2,14 @@
     <string name="app_name">Leitor de mesa TCG</string>
     <string name="home_title">Leitor de mesa TCG e jogador autónomo</string>
     <string name="choose_game">Escolhe o jogo</string>
+    <string name="choose_format">Formato de duelo</string>
     <string name="choose_difficulty">Escolhe a dificuldade da IA</string>
     <string name="start_game">Iniciar partida</string>
+    <string name="deck_setup_title">Quais são as tuas cartas?</string>
+    <string name="deck_setup_hint">Diz-nos que cartas vais usar no duelo. Ajusta as quantidades; durante o jogo podes escanear ou corrigir. Mínimo: %1$d cartas.</string>
+    <string name="use_sample_deck">Usar baralho de exemplo</string>
+    <string name="deck_count">Baralho: %1$d cartas (mínimo %2$d)</string>
+    <string name="start_duel">Começar duelo</string>
     <string name="back">Voltar</string>
     <string name="scan_table">Escanear mesa</string>
     <string name="scanning">A ler a mesa…</string>
