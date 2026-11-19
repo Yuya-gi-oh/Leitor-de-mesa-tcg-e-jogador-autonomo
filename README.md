@@ -33,6 +33,14 @@ baralho de exemplo com um toque).
   YGOPRODeck) com cache local em Room.
 - **Baralhos de exemplo com cartas reais**, para jogar offline desde o primeiro minuto.
 
+## Vídeo de demonstração
+
+Guia de utilização passo a passo (78 s): **[demo/como-usar.mp4](demo/como-usar.mp4)** —
+abre, escolhe o jogo e o formato, diz à app que cartas tens e joga contra a IA.
+
+Para regenerar o vídeo: `pip install pillow imageio imageio-ffmpeg` e depois
+`python3 demo/gerar_tutorial.py`.
+
 ## Instalação
 
 1. Abre o Android Studio (Ladybug ou superior) e escolhe **File → Open** no diretório do projeto.
